@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\BikeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,26 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('home');
+//});
+
+//Route::get('/student/{name}/{num}',function($name,$num){
+//    return "<h1>"."Name=".$name."<br>"."Num=".$num."</h1>";
+//});
+
+
+Route::prefix('api')->group(function () {
+    Route::resource('bikes', BikeController::class);
 });
-Route::get('/f1', function () {
-    return view('f1');
-});
-Route::get('/f2', function () {
-    return view('f2');
-});
-Route::get('/f3', function () {
-    //$x=['1','2','3','4','5'];
-    //dd($x);
-    $y="123";
-    echo $y;
-    return view('f3');
-});
-Route::get('/123', function () {
-    //$x=['1','2','3','4','5'];
-    //dd($x);
-    $y="456";
-    echo $y;
-    return view('f4');
-});
+
+Route::get('/{url}',[StudentController::class,'index']);
+Route::get('/student/{name}/{num}',[StudentController::class,'getByUrl']);
+
+
