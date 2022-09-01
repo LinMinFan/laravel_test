@@ -15,7 +15,9 @@ class BikeController extends Controller
      */
     public function index()
     {
-        return view('bike.index'); 
+        return redirect()->action(
+            [StudentController::class, 'index']
+        ); 
     }
 
     /**
@@ -46,9 +48,12 @@ class BikeController extends Controller
         $student->math = $request->math;
  
         $student->save();
-        $data=Student::all();
+        //$data=Student::all();
+        //return view('home',['data'=>$data,'result'=>$result]); 
         $result="新增成功";
-        return view('home',['data'=>$data,'result'=>$result]); 
+        return redirect()->action(
+            [StudentController::class, 'index'], ['result' => $result]
+        ); 
     }
 
     /**
@@ -70,8 +75,9 @@ class BikeController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        dd($id);
-        dd($id,$request->input('do'),$request->input('test'));
+        $student = Student::where('id',$id)->first();
+        return view('bike.edit',['student'=>$student]);
+        //dd($id,$request->input('do'),$request->input('test'));
     }
 
     /**
@@ -83,7 +89,12 @@ class BikeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        Student::find($id)->update($data);
+        $result="編輯完成";
+        return redirect()->action(
+            [StudentController::class, 'index'], ['result' => $result]
+        ); 
     }
 
     /**
@@ -94,6 +105,11 @@ class BikeController extends Controller
      */
     public function destroy($id)
     {
-        dd("ok");
+        //dd($id);
+        Student::destroy($id);
+        $result="刪除完成";
+        return redirect()->action(
+            [StudentController::class, 'index'], ['result' => $result]
+        );
     }
 }

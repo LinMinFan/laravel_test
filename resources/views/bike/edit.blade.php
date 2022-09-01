@@ -12,28 +12,29 @@
 </head>
 <body>
   <div class="container">
-    <h2>新增資料</h2>
+    <h2>編輯資料</h2>
     <button type="button" class="btn btn-primary" onclick="location.href='/my_laravel/public/'">回首頁</button>
-    <form action="{{route('bikes.store')}}" method="POST">
+    <form action="{{route('bikes.update',['bike'=>$student->id])}}" method="POST">
       @csrf
+      @method('PATCH')
       <div class="form-group">
         <label for="usr">Name:</label>
-        <input type="text" class="form-control" id="usr" name="name">
+        <input type="text" class="form-control" id="usr" name="name" value="{{$student->name}}">
       </div>
       <div class="form-group">
         <label for="ch">Chinese:</label>
-        <input type="number" class="form-control" id="ch" name="chinese">
+        <input type="number" class="form-control" id="ch" name="chinese" value="{{$student->chinese}}">
       </div>
       <div class="form-group">
         <label for="en">English:</label>
-        <input type="number" class="form-control" id="en" name="english">
+        <input type="number" class="form-control" id="en" name="english" value="{{$student->english}}">
       </div>
       <div class="form-group">
         <label for="mt">Math:</label>
-        <input type="number" class="form-control" id="mt" name="math">
+        <input type="number" class="form-control" id="mt" name="math" value="{{$student->math}}">
       </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">確定</button>
+        <button type="submit" class="btn btn-primary">修改確定</button>
         <button type="reset" class="btn btn-warning">重置</button>
       </div>
     </form>

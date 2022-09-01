@@ -167,3 +167,16 @@ foreach (Flight::all() as $flight) {
 ```
 
 * 新增 `create()`
+> CSRF 保護 form 應包含@csrf
+```html
+<form method="POST" action="/profile">
+    @csrf
+    ...
+</form>
+```
+
+#### Redirect Routes (重定路線)
+```php
+Route::redirect('/here', '/there');
+```
+

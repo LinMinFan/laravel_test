@@ -25,7 +25,7 @@ use App\Http\Controllers\BikeController;
 //});
 
 
-Route::prefix('api')->group(function () {
+Route::prefix('active')->group(function () {
     Route::resource('bikes', BikeController::class);
 });
 
