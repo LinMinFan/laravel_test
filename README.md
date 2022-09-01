@@ -6,8 +6,6 @@
 * artisan laravel 指令包
 * php artisan key:generate 建立新的key
 * php artisan route:list 查詢route
-* php artisan make:controller ProvisionServer --invokable
-    * php artisan make:controller Testcontrol 建立新的function
 
 ### larave安裝
 * VERSION 8.x
@@ -75,7 +73,8 @@ Route::prefix('admin')->group(function () {
 ```
 
 ### Single Action Controllers (自訂單一 Controllers)
-* php artisan make:controller ProvisionServer --invokable       
+* php artisan make:controller ProvisionServer --invokable
+    * php artisan make:controller Testcontrol 自訂新的controller
 
 ### Resource Controllers (內建crud Controllers)
 * php artisan make:controller PhotoController --resource
@@ -111,9 +110,60 @@ $url = route('route.name', ['id' => 1], false);
 `php artisan cache:clear`
 `php artisan route:clear`
 
+### 連接外部css (localhost後的網址)
 
+* css資料夾建立publish下自訂css資料夾
+* ex:`<link rel="stylesheet" href="/laravel0831/public/css/style.css">`
+* ex:`<link rel="stylesheet" href="{{asset('/laravel0831/public/css/style.css')}}">`
 
+### 連接資料庫
+* .env檔案內>(自行變更)
+> DB_DATABASE=my_laravel 
+> DB_USERNAME=root
+> DB_PASSWORD=
+* 建立資料表 (artisan 指令)
+> php artisan migrate (新增)
+>> migration / migrate :建立名詞->執行動詞
 
+> php artisan migrate:rollback (還原)
 
+### laravel Sql指令 Up / Down
+#### Database: Migrations -> Available Column Types (表格結構)
 
+#### Generating Migrations (建立資料表)
+* `php artisan make:migration create_flights_table`
+* `php artisan make:migration create_students_table`
 
+### Eloquent ORM
+#### Generating Model Classes (建立模型)
+* `php artisan make:model Flight`
+* Table Names
+```php
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Database\Eloquent\Model;
+ 
+class Flight extends Model
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'my_flights';
+}
+```
+
+* Retrieving Models (Controllers)
+> 建立$data變數，並使用`return view('name',['data'=>$data])`方式傳送
+```php
+use App\Models\Flight;
+ 
+foreach (Flight::all() as $flight) {
+    echo $flight->name;
+}
+```
+
+* 新增 `create()`

@@ -29,7 +29,7 @@ Route::prefix('api')->group(function () {
     Route::resource('bikes', BikeController::class);
 });
 
-Route::get('/{url}',[StudentController::class,'index']);
+Route::get('/',[StudentController::class,'index']);
 Route::get('/student/{name}/{num}',[StudentController::class,'getByUrl']);
 
 

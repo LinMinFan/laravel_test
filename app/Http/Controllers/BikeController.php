@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Student;
 
 class BikeController extends Controller
 {   
@@ -14,13 +15,7 @@ class BikeController extends Controller
      */
     public function index()
     {
-        $myArr=[1,2,3];
-        $data=[
-            'myArr'=>$myArr,
-            'v1'=>11,
-            'v2'=>12
-        ];
-        return view('bike.index',['data'=>$data]); 
+        return view('bike.index'); 
     }
 
     /**
@@ -30,7 +25,8 @@ class BikeController extends Controller
      */
     public function create()
     {
-        dd('bikes.create');
+        $data=Student::all();
+        return view('bike.create',['data'=>$data]); 
     }
 
     /**
@@ -41,7 +37,18 @@ class BikeController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //dd($request->all());
+        $student = new Student;
+ 
+        $student->name = $request->name;
+        $student->chinese = $request->chinese;
+        $student->english = $request->english;
+        $student->math = $request->math;
+ 
+        $student->save();
+        $data=Student::all();
+        $result="新增成功";
+        return view('home',['data'=>$data,'result'=>$result]); 
     }
 
     /**
@@ -63,6 +70,7 @@ class BikeController extends Controller
      */
     public function edit(Request $request,$id)
     {
+        dd($id);
         dd($id,$request->input('do'),$request->input('test'));
     }
 
@@ -86,6 +94,6 @@ class BikeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd("ok");
     }
 }
