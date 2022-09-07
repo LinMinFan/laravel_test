@@ -139,8 +139,6 @@ $url = route('route.name', ['id' => 1], false);
 * `php artisan make:model Flight`
 * Table Names
 ```php
-<?php
- 
 namespace App\Models;
  
 use Illuminate\Database\Eloquent\Model;

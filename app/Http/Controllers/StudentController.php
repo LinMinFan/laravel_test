@@ -10,8 +10,11 @@ class StudentController extends Controller
 {
    public function index(){
         $data=Student::all();
+        $chinese=Student::orderBy('chinese','desc')->get();
+        $english=Student::orderBy('english','desc')->get();
+        $math=Student::orderBy('math','desc')->get();
         //dd($data);
-        return view('home',['data'=>$data]);
+        return view('home',['data'=>$data,'chinese'=>$chinese,'english'=>$english,'math'=>$math]);
         //foreach (Student::all() as $student) {
         //    echo $student->name."<br>";
         //    echo $student->chinese."<br>";
