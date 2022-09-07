@@ -9,12 +9,15 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="/my_laravel/public/css/style.css">
-</head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script></head>
 <body>
 {{-- {{dd($chinese)}} --}}
   <div class="container">
     <h2>學生資料表</h2>
-    <h3 class="text-center text-danger">
+    <div class="container d-flex justify-content-center">
+      <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    </div>
+      <h3 class="text-center text-danger">
       {{$result=$_GET['result']??""}}
     </h3>
     <button type="button" class="btn btn-primary" onclick="location.href='{{route('bikes.create')}}'">新增</button>
@@ -28,13 +31,13 @@
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu1">國文 高->低</a>
+          <a class="nav-link" data-toggle="tab" href="#menu1">國文</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu2">英文 高->低</a>
+          <a class="nav-link" data-toggle="tab" href="#menu2">英文</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu3">數學 高->低</a>
+          <a class="nav-link" data-toggle="tab" href="#menu3">數學</a>
         </li>
       </ul>
     
@@ -53,19 +56,34 @@
               </tr>
             </thead>
             <tbody>
+              @php
+              $countS=count($data);
+              $chinese_avg=0;
+              $english_avg=0;
+              $math_avg=0;
+              @endphp
               @foreach ($data as $key => $student)
                   <tr>
                     <td class="text-center">
                       {{$student->name}}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center chinese">
                       {{$student->chinese}}
+                      @php
+                      $chinese_avg+=$student->chinese;
+                      @endphp
                     </td>
                     <td class="text-center">
                       {{$student->english}}
+                      @php
+                      $english_avg+=$student->english;
+                      @endphp
                     </td>
                     <td class="text-center">
                       {{$student->math}}
+                      @php
+                      $math_avg+=$student->math;
+                      @endphp
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-warning" onclick="location.href='{{route('bikes.edit',['bike'=>$student->id])}}'">編輯</button>
@@ -102,7 +120,7 @@
         @endforeach
         </div>
         <div id="menu1" class="container tab-pane fade"><br>
-          <h3>高->低</h3>
+          <h3>分數 高->低</h3>
           <table class="table">
             <thead>
               <tr>
@@ -163,7 +181,7 @@
         @endforeach
         </div>
         <div id="menu2" class="container tab-pane fade"><br>
-          <h3>高->低</h3>
+          <h3>分數 高->低</h3>
           <table class="table">
             <thead>
               <tr>
@@ -224,7 +242,7 @@
         @endforeach
         </div>
         <div id="menu3" class="container tab-pane fade"><br>
-          <h3>高->低</h3>
+          <h3>分數 高->低</h3>
           <table class="table">
             <thead>
               <tr>
@@ -288,5 +306,28 @@
     </div>
     {{-- end --}}
   </div>
+  <script>
+    var xValues = ["Chinese", "English", "Math"];
+    var yValues = [{{round(($chinese_avg/$countS),0)}}, {{round(($english_avg/$countS),0)}}, {{round(($math_avg/$countS),0)}},0,100];
+    var barColors = ["red", "green","blue"];
+    
+    new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: "各科平均成績"
+        }
+      }
+    });
+    </script>
   </body>
 </html>
